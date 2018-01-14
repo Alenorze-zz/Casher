@@ -8,5 +8,6 @@ schema_view = get_swagger_view(title='Pastebin API')
 
 urlpatterns = [
     url(r'^api/$', schema_view),
-    url(r'^admin/', include(admin.site.urls)),
+    url(r'^admin/', admin.site.urls),
+    url(r'^api/user/', include('accounts.api.user.urls', namespace='api-user')),
 ]

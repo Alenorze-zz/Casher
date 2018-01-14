@@ -9,7 +9,8 @@ SECRET_KEY = 'e6e53362-8b9f-40fa-bef3-c4245fd0e40e'
 DEBUG = True
 
 
-ALLOWED_HOSTS = ['0.0.0.0', '127.0.0.1']
+ALLOWED_HOSTS = []
+APPEND_SLASH = True
 
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'alenorze@gmail.com' 
@@ -38,6 +39,7 @@ INSTALLED_APPS = [
     'rest_framework_swagger',
     #Apps
     'accounts',
+    'status'
 ]
 
 MIDDLEWARE_CLASSES = [
