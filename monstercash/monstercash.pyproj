@@ -31,7 +31,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="manage.py" />
-    <Compile Include="monstercash\settings\ba.py" />
+    <Compile Include="monstercash\settings\base.py" />
     <Compile Include="monstercash\settings\local.py" />
     <Compile Include="monstercash\__init__.py" />
     <Compile Include="monstercash\settings\production.py" />
