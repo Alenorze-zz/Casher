@@ -1,4 +1,4 @@
 Django==2.0.1
 pip==9.0.1
 pytz==2017.3
-setuptools==28.8.0
+setuptools==38.4.0
