@@ -2,9 +2,8 @@ import datetime
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        #'rest_framework.authentication.BasicAuthentication',
         'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
-        'rest_framework.authentication.SessionAuthentication', #Oauth, JWT
+        'rest_framework.authentication.SessionAuthentication', 
     ),
     'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.IsAuthenticatedOrReadOnly',
@@ -33,13 +32,12 @@ JWT_AUTH = {
     'rest_framework_jwt.utils.jwt_get_user_id_from_payload_handler',
 
     'JWT_RESPONSE_PAYLOAD_HANDLER':
-    #'rest_framework_jwt.utils.jwt_response_payload_handler'
     'accounts.api.utils.jwt_response_payload_handler',
 
     'JWT_ALLOW_REFRESH': True,
     'JWT_REFRESH_EXPIRATION_DELTA': datetime.timedelta(days=7),
 
-    'JWT_AUTH_HEADER_PREFIX': 'JWT', # Authorization: JWT <token>
+    'JWT_AUTH_HEADER_PREFIX': 'JWT', 
     'JWT_AUTH_COOKIE': None,
 
 }

@@ -2,13 +2,27 @@ import os
 import posixpath
 
 
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 SECRET_KEY = 'e6e53362-8b9f-40fa-bef3-c4245fd0e40e'
 
 DEBUG = True
 
-ALLOWED_HOSTS = []
+
+ALLOWED_HOSTS = ['0.0.0.0', '127.0.0.1']
+
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'alenorze@gmail.com' 
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD', 'yourpassword')
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+DEFAULT_FROM_EMAIL = 'Python ecommerce <alenorze@gmail.com>'
+
+MANAGERS = (
+    ('Alexey Belov', "alenorze@gmail.com"),
+)
+
+ADMINS = MANAGERS
 
 
 INSTALLED_APPS = [
@@ -22,6 +36,8 @@ INSTALLED_APPS = [
     'corsheaders',
     'rest_framework',
     'rest_framework_swagger',
+    #Apps
+    'accounts',
 ]
 
 MIDDLEWARE_CLASSES = [
