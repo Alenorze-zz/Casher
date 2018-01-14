@@ -5,7 +5,7 @@ from rest_framework_jwt.views import refresh_jwt_token, obtain_jwt_token # accou
 
 from .views import AuthAPIView, RegisterAPIView
 
-app_name = 'AuthAPI'
+app_name = 'auth-api'
 
 
 urlpatterns = [

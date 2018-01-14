@@ -2,7 +2,7 @@ from django.conf.urls import url
 
 from .views import StatusAPIView, StatusAPIDetailView
 
-app_name = "StatusAPI"
+app_name = "api-status"
 
 
 urlpatterns = [
