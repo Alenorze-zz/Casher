@@ -18,6 +18,7 @@ for route in routes:
     router.register(route[0], route[1])
 
 
+
 urlpatterns = [
     url(r'^docs/$', schema_view),
     url(r'^admin/', admin.site.urls),
