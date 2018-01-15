@@ -1,15 +1,27 @@
+from django.conf.urls import url, include
 from django.contrib import admin
-from django.views.generic import TemplateView
-from django.conf.urls import include, url
+
+from rest_framework.authtoken.views import obtain_auth_token
+from rest_framework import routers
 from rest_framework_swagger.views import get_swagger_view
 
-schema_view = get_swagger_view(title='Pastebin API')
+from accounts.routes import routes as accounts_routes
+
+#Swagger
+schema_view = get_swagger_view(title='MonsterCash API')
+
+#DRF Routing
+router = routers.DefaultRouter()
+
+routes = accounts_routes
+for route in routes:
+    router.register(route[0], route[1])
 
 
 urlpatterns = [
-    url(r'^api/$', schema_view),
+    url(r'^docs/$', schema_view),
     url(r'^admin/', admin.site.urls),
-    url(r'^api/auth/', include('accounts.api.urls', namespace='api-auth')),
-    url(r'^api/user/', include('accounts.api.user.urls', namespace='api-user')),
-    url(r'^api/status/', include('status.api.urls', namespace='api-status')),
+    url(r'^get_auth_token/$', obtain_auth_token, name='get_auth_token'),
+    url(r'^api/', include(router.urls)),
+    url(r'api-auth/', include('rest_framework.urls', namespace='rest_framework')),
 ]

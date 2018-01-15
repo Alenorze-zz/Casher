@@ -38,8 +38,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework_swagger',
     #Apps
-    'accounts',
-    'status'
+    # 'accounts',
+    # 'status'
 ]
 
 MIDDLEWARE_CLASSES = [
