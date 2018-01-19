@@ -16,7 +16,7 @@
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
     <LaunchProvider>Django launcher</LaunchProvider>
-    <DjangoSettingsModule>monstercash.settings</DjangoSettingsModule>
+    <DjangoSettingsModule>deep.settings</DjangoSettingsModule>
     <WebBrowserUrl>http://localhost</WebBrowserUrl>
     <OutputPath>.</OutputPath>
     <SuppressCollectPythonCloudServiceFiles>true</SuppressCollectPythonCloudServiceFiles>
@@ -30,29 +30,22 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="accounts\admin.py" />
-    <Compile Include="accounts\apps.py" />
-    <Compile Include="accounts\migrations\__init__.py" />
-    <Compile Include="accounts\models.py" />
-    <Compile Include="accounts\tests.py" />
-    <Compile Include="accounts\views.py" />
-    <Compile Include="accounts\__init__.py" />
     <Compile Include="manage.py" />
-    <Compile Include="monstercash\settings\base.py" />
-    <Compile Include="monstercash\settings\local.py" />
-    <Compile Include="monstercash\__init__.py" />
-    <Compile Include="monstercash\settings\production.py" />
-    <Compile Include="monstercash\urls.py" />
-    <Compile Include="monstercash\wsgi.py" />
+    <Compile Include="deep\settings.py" />
+    <Compile Include="deep\__init__.py" />
+    <Compile Include="deep\urls.py" />
+    <Compile Include="deep\wsgi.py" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="accounts\templates\index.html" />
     <Content Include="requirements.txt" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="accounts\" />
     <Folder Include="accounts\migrations\" />
     <Folder Include="accounts\templates\" />
+    <Folder Include="deep\" />
+    <Folder Include="deep\" />
+    <Folder Include="deep\settings\" />
     <Folder Include="monstercash\" />
     <Folder Include="monstercash\settings\" />
   </ItemGroup>
