@@ -2,7 +2,6 @@ from django.contrib.auth.models import User
 from django.contrib.postgres.fields import JSONField
 from django.db import models
 from user_resource.models import UserResource
-from geo.models import Region
 from user_group.models import UserGroup
 from analysis_framework.models import AnalysisFramework
 from category_editor.models import CategoryEditor
@@ -21,7 +20,6 @@ class Project(UserResource):
 
     members = models.ManyToManyField(User, blank=True,
                                      through='ProjectMembership')
-    regions = models.ManyToManyField(Region, blank=True)
     user_groups = models.ManyToManyField(UserGroup, blank=True)
     analysis_framework = models.ForeignKey(AnalysisFramework, blank=True,
                                            default=None, null=True,
