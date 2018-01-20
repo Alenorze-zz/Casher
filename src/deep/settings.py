@@ -103,6 +103,7 @@ WSGI_APPLICATION = 'deep.wsgi.application'
 DATABASES = {
     'default': env.db('DATABASE_URL', default='postgres:///g_intim'),
 }
+DATABASES['default']['ATOMIC_REQUESTS'] = True
 
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
