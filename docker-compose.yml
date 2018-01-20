@@ -1,15 +1,27 @@
 version: '3'
 
+volumes:
+  postgres_data_local: {}
+  postgres_backup_local: {}
+
 services:
-  db:
-    image: postgres
-  web:
-    build: .
-    command: python3 manage.py runserver 0.0.0.0:8000
+   django: &django
+    build:
+      context: .
+      dockerfile: ./compose/local/django/Dockerfile
+    depends_on:
+      - postgres
     volumes:
       - .:/code
     ports:
       - "8000:8000"
-    depends_on:
-      - db
+    command: /start.sh
+
+postgres:
+    build:
+      context: .
+      dockerfile: ./compose/production/postgres/Dockerfile
+    volumes:
+      - postgres_data_local:/var/lib/postgresql/data
+      - postgres_backup_local:/backups
       
