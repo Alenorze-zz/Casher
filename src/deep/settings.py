@@ -101,13 +101,7 @@ WSGI_APPLICATION = 'deep.wsgi.application'
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'postgres',
-        'USER': 'postgres',
-        'HOST': 'db',
-        'PORT': 5432,
-    }
+    'default': env.db('DATABASE_URL', default='postgres:///g_intim'),
 }
 
 # Password validation
@@ -185,50 +179,50 @@ USE_TZ = True
 # Gallery files Cache-control max-age in seconds
 GALLERY_FILE_EXPIRE = 60 * 60 * 24
 
-if os.environ.get('DJANGO_USE_S3', 'False').lower() == 'true':
-    # AWS S3 Bucket Credentials
-    AWS_STORAGE_BUCKET_NAME_STATIC = os.environ[
-        'DJANGO_AWS_STORAGE_BUCKET_NAME_STATIC']
-    AWS_STORAGE_BUCKET_NAME_MEDIA = os.environ[
-        'DJANGO_AWS_STORAGE_BUCKET_NAME_MEDIA']
-    AWS_ACCESS_KEY_ID = os.environ['S3_AWS_ACCESS_KEY_ID']
-    AWS_SECRET_ACCESS_KEY = os.environ['S3_AWS_SECRET_ACCESS_KEY']
+# if os.environ.get('DJANGO_USE_S3', 'False').lower() == 'true':
+#     # AWS S3 Bucket Credentials
+#     AWS_STORAGE_BUCKET_NAME_STATIC = os.environ[
+#         'DJANGO_AWS_STORAGE_BUCKET_NAME_STATIC']
+#     AWS_STORAGE_BUCKET_NAME_MEDIA = os.environ[
+#         'DJANGO_AWS_STORAGE_BUCKET_NAME_MEDIA']
+#     AWS_ACCESS_KEY_ID = os.environ['S3_AWS_ACCESS_KEY_ID']
+#     AWS_SECRET_ACCESS_KEY = os.environ['S3_AWS_SECRET_ACCESS_KEY']
 
-    AWS_S3_FILE_OVERWRITE = False
-    AWS_DEFAULT_ACL = 'private'
-    AWS_QUERYSTRING_AUTH = True
-    AWS_S3_CUSTOM_DOMAIN = None
-    AWS_QUERYSTRING_EXPIRE = GALLERY_FILE_EXPIRE
+#     AWS_S3_FILE_OVERWRITE = False
+#     AWS_DEFAULT_ACL = 'private'
+#     AWS_QUERYSTRING_AUTH = True
+#     AWS_S3_CUSTOM_DOMAIN = None
+#     AWS_QUERYSTRING_EXPIRE = GALLERY_FILE_EXPIRE
 
-    # Static configuration
-    STATICFILES_LOCATION = 'static'
-    STATIC_URL = "https://%s/%s/" % (AWS_S3_CUSTOM_DOMAIN,
-                                     STATICFILES_LOCATION)
-    STATICFILES_STORAGE = 'deep.s3_storages.StaticStorage'
+#     # Static configuration
+#     STATICFILES_LOCATION = 'static'
+#     STATIC_URL = "https://%s/%s/" % (AWS_S3_CUSTOM_DOMAIN,
+#                                      STATICFILES_LOCATION)
+#     STATICFILES_STORAGE = 'deep.s3_storages.StaticStorage'
 
-    # Media configuration
-    MEDIAFILES_LOCATION = 'media'
-    MEDIA_URL = "https://%s/%s/" % (AWS_S3_CUSTOM_DOMAIN, MEDIAFILES_LOCATION)
-    DEFAULT_FILE_STORAGE = 'deep.s3_storages.MediaStorage'
-else:
-    STATIC_URL = '/static/'
-    STATIC_ROOT = '/static'
+#     # Media configuration
+#     MEDIAFILES_LOCATION = 'media'
+#     MEDIA_URL = "https://%s/%s/" % (AWS_S3_CUSTOM_DOMAIN, MEDIAFILES_LOCATION)
+#     DEFAULT_FILE_STORAGE = 'deep.s3_storages.MediaStorage'
+# else:
+STATIC_URL = '/static/'
+STATIC_ROOT = '/static'
 
-    MEDIA_URL = '/media/'
-    MEDIA_ROOT = '/media'
+MEDIA_URL = '/media/'
+MEDIA_ROOT = '/media'
 
 
 # CELERY CONFIG
 
-CELERY_BROKER_URL = os.environ.get('REDIS_URL', 'redis://redis:6379')
-CELERY_RESULT_BACKEND = os.environ.get('REDIS_URL', 'redis://redis:6379')
-CELERY_TIMEZONE = TIME_ZONE
+# CELERY_BROKER_URL = os.environ.get('REDIS_URL', 'redis://redis:6379')
+# CELERY_RESULT_BACKEND = os.environ.get('REDIS_URL', 'redis://redis:6379')
+# CELERY_TIMEZONE = TIME_ZONE
 
-# REDIS STORE CONFIG
+# # REDIS STORE CONFIG
 
-REDIS_STORE_HOST = os.environ.get('REDIS_HOST', 'redis')
-REDIS_STORE_PORT = os.environ.get('REDIS_PORT', '6379')
-REDIS_STORE_DB = os.environ.get('REDIS_DB_NUM', '0')
+# REDIS_STORE_HOST = os.environ.get('REDIS_HOST', 'redis')
+# REDIS_STORE_PORT = os.environ.get('REDIS_PORT', '6379')
+# REDIS_STORE_DB = os.environ.get('REDIS_DB_NUM', '0')
 
 
 # CHANNELS CONFIG
@@ -244,14 +238,14 @@ CHANNEL_LAYERS = {
 
 TEST_DIR = os.path.join(BASE_DIR, 'deep/test_files')
 
-# HID CONFIGS [NOTE: Update config in React too]
-HID_CLIENT_ID = os.environ.get('HID_CLIENT_ID', 'deep-local')
-HID_CLIENT_NAME = os.environ.get('HID_CLIENT_NAME', 'Deep Local')
-HID_CLIENT_REDIRECT_URL = os.environ.get(
-    'HID_CLIENT_REDIRECT_URL', 'http://localhost:3000/login/')
-HID_AUTH_URI = os.environ.get(
-    'HID_AUTH_URI',
-    'https://api2.dev.humanitarian.id')  # https://auth.humanitarian.id
+# # HID CONFIGS [NOTE: Update config in React too]
+# HID_CLIENT_ID = os.environ.get('HID_CLIENT_ID', 'deep-local')
+# HID_CLIENT_NAME = os.environ.get('HID_CLIENT_NAME', 'Deep Local')
+# HID_CLIENT_REDIRECT_URL = os.environ.get(
+#     'HID_CLIENT_REDIRECT_URL', 'http://localhost:3000/login/')
+# HID_AUTH_URI = os.environ.get(
+#     'HID_AUTH_URI',
+#     'https://api2.dev.humanitarian.id')  # https://auth.humanitarian.id
 
 # Logging Errors to Papertrail
 
@@ -269,49 +263,49 @@ def add_username_attribute(record):
     return True
 
 
-if os.environ.get('USE_PAPERTRAIL', 'False').lower() == 'true':
-    LOGGING = {
-        'version': 1,
-        'disable_existing_loggers': False,
-        'filters': {
-            'add_username_attribute': {
-                '()': 'django.utils.log.CallbackFilter',
-                'callback': add_username_attribute,
-            }
-        },
-        'formatters': {
-            'simple': {
-                'format': '%(asctime)s ' + os.environ.get('EBS_HOSTNAME', '') +
-                          ' DJANGO-' + os.environ.get('EBS_ENV_TYPE', '') +
-                          ': %(username)s %(message)s',
-                'datefmt': '%Y-%m-%dT%H:%M:%S',
-            },
-        },
-        'handlers': {
-            'SysLog': {
-                'level': 'DEBUG',
-                'class': 'logging.handlers.SysLogHandler',
-                'filters': ['add_username_attribute'],
-                'formatter': 'simple',
-                'address': (os.environ.get('PAPERTRAIL_HOST'),
-                            int(os.environ.get('PAPERTRAIL_PORT')))
-            },
-        },
-        'loggers': {
-            'celery': {
-                'handlers': ['SysLog'],
-                'propagate': True,
-            },
-            'channels': {
-                'handlers': ['SysLog'],
-                'propagate': True,
-            },
-            'django': {
-                'handlers': ['SysLog'],
-                'propagate': True,
-            },
-        },
-    }
+# if os.environ.get('USE_PAPERTRAIL', 'False').lower() == 'true':
+#     LOGGING = {
+#         'version': 1,
+#         'disable_existing_loggers': False,
+#         'filters': {
+#             'add_username_attribute': {
+#                 '()': 'django.utils.log.CallbackFilter',
+#                 'callback': add_username_attribute,
+#             }
+#         },
+#         'formatters': {
+#             'simple': {
+#                 'format': '%(asctime)s ' + os.environ.get('EBS_HOSTNAME', '') +
+#                           ' DJANGO-' + os.environ.get('EBS_ENV_TYPE', '') +
+#                           ': %(username)s %(message)s',
+#                 'datefmt': '%Y-%m-%dT%H:%M:%S',
+#             },
+#         },
+#         'handlers': {
+#             'SysLog': {
+#                 'level': 'DEBUG',
+#                 'class': 'logging.handlers.SysLogHandler',
+#                 'filters': ['add_username_attribute'],
+#                 'formatter': 'simple',
+#                 'address': (os.environ.get('PAPERTRAIL_HOST'),
+#                             int(os.environ.get('PAPERTRAIL_PORT')))
+#             },
+#         },
+#         'loggers': {
+#             'celery': {
+#                 'handlers': ['SysLog'],
+#                 'propagate': True,
+#             },
+#             'channels': {
+#                 'handlers': ['SysLog'],
+#                 'propagate': True,
+#             },
+#             'django': {
+#                 'handlers': ['SysLog'],
+#                 'propagate': True,
+#             },
+#         },
+#     }
 
 # CORS CONFIGS
 CORS_ORIGIN_WHITELIST = (
@@ -342,25 +336,7 @@ CORS_ALLOW_HEADERS = (
 )
 
 # Email CONFIGS
-USE_EMAIL_CONFIG = os.environ.get('USE_EMAIL_CONFIG',
-                                  'False').lower() == 'true'
-EMAIL_HOST = os.environ.get('EMAIL_HOST', 'smtp.gmail.com')
-EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER',
-                                 'deepnotifications1@gmail.com')
-EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD', 'deep1234')
-EMAIL_USE_TLS = os.environ.get('EMAIL_USE_TLS', 'True').lower() == 'true'
-EMAIL_PORT = int(os.environ.get('EMAIL_PORT')) if os.environ.get('EMAIL_PORT')\
-    else 587
-DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
-ADMINS = [('Ewan', 'ewanogle@gmail.com'),
-          ('Togglecorp', 'info@togglecorp.com')]
 
-if not USE_EMAIL_CONFIG:
-    """
-    DUMP THE EMAIL TO CONSOLE
-    """
-    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-else:
     """
     Use AWS SES
     """

@@ -1,27 +1,28 @@
-version: '3'
+version: '2'
 
 volumes:
   postgres_data_local: {}
   postgres_backup_local: {}
 
 services:
-   django: &django
+  django: &django
     build:
       context: .
       dockerfile: ./compose/local/django/Dockerfile
     depends_on:
       - postgres
     volumes:
-      - .:/code
+      - .:/app
+    environment:
+      - POSTGRES_USER=g_intim
     ports:
       - "8000:8000"
     command: /start.sh
 
-postgres:
+  postgres:
     build:
       context: .
       dockerfile: ./compose/production/postgres/Dockerfile
     volumes:
       - postgres_data_local:/var/lib/postgresql/data
       - postgres_backup_local:/backups
-      
