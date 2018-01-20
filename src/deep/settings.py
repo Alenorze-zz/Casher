@@ -3,6 +3,9 @@ Django settings for deep project.
 """
 import os
 import sys
+import environ
+
+env = environ.Env()
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -26,7 +29,6 @@ HTTP_PROTOCOL = os.environ.get('DEEP_HTTPS', 'http')
 
 # See if we are inside a test environment
 TESTING = len(sys.argv) > 1 and sys.argv[1] == 'test'
-
 
 # Application definition
 
@@ -213,7 +215,7 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = '/media'
 
 
-INSTALLED_APPS += ['celery.CeleryConfig']
+INSTALLED_APPS += ['deep.celery.CeleryConfig']
 CELERY_BROKER_URL = env('CELERY_BROKER_URL', default='django://')
 if CELERY_BROKER_URL == 'django://':
     CELERY_RESULT_BACKEND = 'redis://'

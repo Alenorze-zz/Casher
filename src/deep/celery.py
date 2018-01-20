@@ -9,11 +9,11 @@ if not settings.configured:
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings.local')  # pragma: no cover
 
 
-app = Celery('g_intim')
+app = Celery('deep')
 
 
 class CeleryConfig(AppConfig):
-    name = 'g_intim.taskapp'
+    name = 'deep'
     verbose_name = 'Celery Config'
 
     def ready(self):
@@ -55,4 +55,3 @@ class CeleryConfig(AppConfig):
 @app.task(bind=True)
 def debug_task(self):
     print('Request: {0!r}'.format(self.request)) 
-    
