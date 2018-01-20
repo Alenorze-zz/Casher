@@ -1,4 +1,4 @@
-FROM python:3.6
+FROM python:3.5
 
 ENV PYTHONUNBUFFERED 1
 
@@ -19,6 +19,14 @@ COPY ./compose/production/django/entrypoint.sh /entrypoint.sh
 RUN sed -i 's/\r//' /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 RUN chown django /entrypoint.sh
+
+COPY ./compose/production/django/celery/worker/start.sh /start-celeryworker.sh
+RUN sed -i 's/\r//' /start-celeryworker.sh
+RUN chmod +x /start-celeryworker.sh
+
+COPY ./compose/production/django/celery/beat/start.sh /start-celerybeat.sh
+RUN sed -i 's/\r//' /start-celerybeat.sh
+RUN chmod +x /start-celerybeat.sh
 
 COPY . /app
 

@@ -213,18 +213,12 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = '/media'
 
 
-# CELERY CONFIG
-
-# CELERY_BROKER_URL = os.environ.get('REDIS_URL', 'redis://redis:6379')
-# CELERY_RESULT_BACKEND = os.environ.get('REDIS_URL', 'redis://redis:6379')
-# CELERY_TIMEZONE = TIME_ZONE
-
-# # REDIS STORE CONFIG
-
-# REDIS_STORE_HOST = os.environ.get('REDIS_HOST', 'redis')
-# REDIS_STORE_PORT = os.environ.get('REDIS_PORT', '6379')
-# REDIS_STORE_DB = os.environ.get('REDIS_DB_NUM', '0')
-
+INSTALLED_APPS += ['celery.CeleryConfig']
+CELERY_BROKER_URL = env('CELERY_BROKER_URL', default='django://')
+if CELERY_BROKER_URL == 'django://':
+    CELERY_RESULT_BACKEND = 'redis://'
+else:
+    CELERY_RESULT_BACKEND = CELERY_BROKER_URL
 
 # CHANNELS CONFIG
 CHANNEL_LAYERS = {
@@ -239,17 +233,6 @@ CHANNEL_LAYERS = {
 
 TEST_DIR = os.path.join(BASE_DIR, 'deep/test_files')
 
-# # HID CONFIGS [NOTE: Update config in React too]
-# HID_CLIENT_ID = os.environ.get('HID_CLIENT_ID', 'deep-local')
-# HID_CLIENT_NAME = os.environ.get('HID_CLIENT_NAME', 'Deep Local')
-# HID_CLIENT_REDIRECT_URL = os.environ.get(
-#     'HID_CLIENT_REDIRECT_URL', 'http://localhost:3000/login/')
-# HID_AUTH_URI = os.environ.get(
-#     'HID_AUTH_URI',
-#     'https://api2.dev.humanitarian.id')  # https://auth.humanitarian.id
-
-# Logging Errors to Papertrail
-
 
 def add_username_attribute(record):
     """
@@ -263,50 +246,6 @@ def add_username_attribute(record):
             record.username = 'Anonymous_User'
     return True
 
-
-# if os.environ.get('USE_PAPERTRAIL', 'False').lower() == 'true':
-#     LOGGING = {
-#         'version': 1,
-#         'disable_existing_loggers': False,
-#         'filters': {
-#             'add_username_attribute': {
-#                 '()': 'django.utils.log.CallbackFilter',
-#                 'callback': add_username_attribute,
-#             }
-#         },
-#         'formatters': {
-#             'simple': {
-#                 'format': '%(asctime)s ' + os.environ.get('EBS_HOSTNAME', '') +
-#                           ' DJANGO-' + os.environ.get('EBS_ENV_TYPE', '') +
-#                           ': %(username)s %(message)s',
-#                 'datefmt': '%Y-%m-%dT%H:%M:%S',
-#             },
-#         },
-#         'handlers': {
-#             'SysLog': {
-#                 'level': 'DEBUG',
-#                 'class': 'logging.handlers.SysLogHandler',
-#                 'filters': ['add_username_attribute'],
-#                 'formatter': 'simple',
-#                 'address': (os.environ.get('PAPERTRAIL_HOST'),
-#                             int(os.environ.get('PAPERTRAIL_PORT')))
-#             },
-#         },
-#         'loggers': {
-#             'celery': {
-#                 'handlers': ['SysLog'],
-#                 'propagate': True,
-#             },
-#             'channels': {
-#                 'handlers': ['SysLog'],
-#                 'propagate': True,
-#             },
-#             'django': {
-#                 'handlers': ['SysLog'],
-#                 'propagate': True,
-#             },
-#         },
-#     }
 
 # CORS CONFIGS
 CORS_ORIGIN_WHITELIST = (
