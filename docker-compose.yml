@@ -8,11 +8,11 @@ services:
   django: &django
     build:
       context: .
-      dockerfile: ./compose/local/django/Dockerfile
+      dockerfile: ./compose/production/django/Dockerfile
     depends_on:
       - postgres
     volumes:
-      - .:/app
+      - /app/src
     environment:
       - POSTGRES_USER=g_intim
       - USE_DOCKER=yes
@@ -40,6 +40,8 @@ services:
     depends_on:
       - redis
       - postgres
+    environment:
+      - C_FORCE_ROOT=true
     ports: []
     command: /start-celeryworker.sh
 
@@ -49,5 +51,7 @@ services:
     depends_on:
       - redis
       - postgres
+    environment:
+      - C_FORCE_ROOT=true
     ports: []
     command: /start-celerybeat.sh

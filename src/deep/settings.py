@@ -215,7 +215,7 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = '/media'
 
 
-INSTALLED_APPS += ['deep.celery.CeleryConfig']
+INSTALLED_APPS += ['src.taskapp.celery.CeleryConfig']
 CELERY_BROKER_URL = env('CELERY_BROKER_URL', default='django://')
 if CELERY_BROKER_URL == 'django://':
     CELERY_RESULT_BACKEND = 'redis://'
@@ -277,16 +277,12 @@ CORS_ALLOW_HEADERS = (
     'x-requested-with',
 )
 
-# Email CONFIGS
 
-    """
-    Use AWS SES
-    """
-    EMAIL_BACKEND = 'django_ses.SESBackend'
-    AWS_SES_ACCESS_KEY_ID = os.environ['AWS_ACCESS_KEY_ID']
-    AWS_SES_SECRET_ACCESS_KEY = os.environ['AWS_SECRET_ACCESS_KEY']
-    # AWS_SES_REGION_NAME = 'us-east-1'
-    # AWS_SES_REGION_ENDPOINT = 'email.us-east-1.amazonaws.com'
+EMAIL_BACKEND = 'django_ses.SESBackend'
+AWS_SES_ACCESS_KEY_ID = os.environ['AWS_ACCESS_KEY_ID']
+AWS_SES_SECRET_ACCESS_KEY = os.environ['AWS_SECRET_ACCESS_KEY']
+# AWS_SES_REGION_NAME = 'us-east-1'
+# AWS_SES_REGION_ENDPOINT = 'email.us-east-1.amazonaws.com'
 
 
 # DEEP GALLERY CONFIGS ###

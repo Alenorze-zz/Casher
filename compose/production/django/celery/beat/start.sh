@@ -5,4 +5,4 @@ set -o pipefail
 set -o nounset
 
 
-celery -A g_intim.taskapp beat -l INFO
+celery -A src.taskapp beat -l INFO

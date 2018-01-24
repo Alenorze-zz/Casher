@@ -6,14 +6,14 @@ from django.conf import settings
 
 if not settings.configured:
     # set the default Django settings module for the 'celery' program.
-    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings.local')  # pragma: no cover
+    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'deep.settings.local')  # pragma: no cover
 
 
-app = Celery('deep')
+app = Celery('monstercash')
 
 
 class CeleryConfig(AppConfig):
-    name = 'deep'
+    name = 'src.taskapp'
     verbose_name = 'Celery Config'
 
     def ready(self):
